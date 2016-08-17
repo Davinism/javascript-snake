@@ -1,0 +1,53 @@
+body{
+  font-family: 'Josefin Slab', serif;
+}
+
+h1 {
+  text-align: center;
+  font-size: 36px;
+  padding: 40px;
+  font-weight: bolder;
+}
+
+h2 {
+  text-align: center;
+  color: crimson;
+  font-size: 36px;
+  padding: 10px;
+
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+ul {
+  height: 20px;
+}
+
+li {
+  float: left;
+  box-sizing: border-box;
+  height: 20px;
+  width: 20px;
+  background: azure;
+}
+
+.board {
+  margin: 0 auto;
+  width: 400px;
+  display: block;
+  border-top: solid 2px #000;
+  border-right: solid 2px #000;
+  border-bottom: solid 2px #000;
+  border-left: solid 2px #000;
+}
+
+.snake {
+  background: crimson;
+}
+.apple {
+  background: green;
+}
