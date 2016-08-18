@@ -66,6 +66,7 @@
 	    this.board = board;
 	    this.$el = $el;
 	    this.level = null;
+	    this.paused = "false";
 
 	    this.bindEvents();
 	    this.selectLevel();
@@ -73,6 +74,34 @@
 
 	  bindEvents() {
 	    let snake = this.board.snake;
+	    let thisView = this;
+	    key('space', function(){
+	      if (thisView.paused === "true") {
+	        $('h2').remove();
+	        $('.buttons2').remove();
+	        thisView.paused = "false";
+	      } else if(thisView.paused === "false"){
+	        let $body = $('body');
+	        let $paused = $(`<h2>PAUSED</h2>`);
+	        let $reset = $(`<section class="buttons2"><button class="impossible">Reset Game</button></section>`);
+
+	        $body.append($paused);
+	        $body.append($reset);
+	        $(".impossible").click((event) => {
+	          thisView.paused = null;
+	          $('.board').children().remove();
+	          $('h2').remove();
+	          $('.buttons2').remove();
+	          const rootEl = $('.board');
+	          const game = new Board();
+	          new View(game, rootEl);
+	        });
+
+	        thisView.paused = "true";
+	      }
+	    });
+
+
 	    key('w', function(){
 	      if (snake.direction !== 'S') {
 	        snake.direction = 'N';
@@ -120,25 +149,27 @@
 	    this.renderBoard();
 
 	    let loop = setInterval(() => {
-	      if (this.board.snake.move()) {
-	        this.renderBoard();
-	      } else {
-	        let $body = $('body');
-	        let $lost = $(`<h2>Game Over</h2><h2>Snake Length: ${this.board.snake.segments.length}</h2>`);
-	        let $newGame = $(`<section class="buttons2"><button class="new">New Game</button></section>`);
-	        $body.append($lost);
-	        $body.append($newGame);
+	      if (this.paused === "false") {
+	        if (this.board.snake.move()) {
+	          this.renderBoard();
+	        } else {
+	          let $body = $('body');
+	          let $lost = $(`<h2>Game Over</h2><h2>Snake Length: ${this.board.snake.segments.length}</h2>`);
+	          let $newGame = $(`<section class="buttons2"><button class="new">New Game</button></section>`);
+	          $body.append($lost);
+	          $body.append($newGame);
 
-	        $(".new").click((event) => {
-	          $('.board').children().remove();
-	          $('h2').remove();
-	          $('.new').remove();
-	          const rootEl = $('.board');
-	          const game = new Board();
-	          new View(game, rootEl);
-	        });
+	          $(".new").click((event) => {
+	            $('.board').children().remove();
+	            $('h2').remove();
+	            $('.buttons2').remove();
+	            const rootEl = $('.board');
+	            const game = new Board();
+	            new View(game, rootEl);
+	          });
 
-	        clearInterval(loop);
+	          clearInterval(loop);
+	        }
 	      }
 	    }, this.level);
 	  }

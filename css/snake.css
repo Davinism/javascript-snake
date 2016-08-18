@@ -27,51 +27,61 @@ input, button, submit {
 
 .new {
   background: #41A1BC;
+  border-bottom: solid 3px #347D91;
   color: #fff;
 }
 
 .new:hover {
   background: #347D91;
+  border-top: solid 3px #41A1BC;
   cursor: pointer;
 }
 
 .easy {
   background: green;
+  border-bottom: solid 3px #103110;
   color: #fff;
 }
 
 .easy:hover {
   background: #103110;
+  border-top: solid 3px green;
   cursor: pointer;
 }
 
 .medium {
   background: #C6C600;
+  border-bottom: solid 3px #747400;
   color: #fff;
 }
 
 .medium:hover {
   background: #747400;
+  border-top: solid 3px #C6C600;
   cursor: pointer;
 }
 
 .hard {
   background: #C66B00;
+  border-bottom: solid 3px #784200;
   color: #fff;
 }
 
 .hard:hover {
   background: #784200;
+  border-top: solid 3px #C66B00;
   cursor: pointer;
 }
 
 .impossible {
   background: #BF0000;
+  border-bottom: solid 3px #740000;
   color: #fff;
 }
 
 .impossible:hover {
   background: #740000;
+  border-top: solid 3px #BF0000;
   cursor: pointer;
 }
 
