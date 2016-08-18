@@ -44,8 +44,8 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const SnakeBoard = __webpack_require__(2);
-	const SnakeView = __webpack_require__(1);
+	const SnakeBoard = __webpack_require__(1);
+	const SnakeView = __webpack_require__(3);
 
 	$( () => {
 	  const rootEl = $('.board');
@@ -58,7 +58,123 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const Board = __webpack_require__(2);
+	const Snake = __webpack_require__(2);
+
+
+	class Board {
+
+	  constructor() {
+	    this.snake = new Snake(this);
+	    this.apple = this.setApple();
+	  }
+
+	  setApple() {
+	    let row = Math.floor(Math.random() * Board.GRID_HEIGHT);
+	    let col = Math.floor(Math.random() * Board.GRID_WIDTH);
+
+	    while (this.includedIn(this.snake, [row, col])) {
+	      row = Math.floor(Math.random() * Board.GRID_HEIGHT);
+	      col = Math.floor(Math.random() * Board.GRID_WIDTH);
+	    }
+
+	    return [row, col];
+	  }
+
+	  includedIn(arr, pos) {
+	    for (let i = 0; i < arr.length; i++) {
+	      if (arr[i][0] === pos[0] && arr[i][1] === pos[1]) {
+	        return true;
+	      }
+	    }
+	    return false;
+	  }
+
+	  isValid(pos) {
+	    if (pos[0] < 0 || pos[0] > Board.GRID_HEIGHT - 1) {
+	      return false;
+	    } else if (pos[1] < 0 || pos[1] > Board.GRID_WIDTH - 1) {
+	      return false;
+	    } else if (this.includedIn(this.snake.segments, pos)) {
+	      return false;
+	    }
+	    return true;
+	  }
+
+	}
+
+	Board.GRID_HEIGHT = 20;
+	Board.GRID_WIDTH = 20;
+	module.exports = Board;
+
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	
+
+	class Snake {
+
+	  constructor(board) {
+	    this.board = board;
+	    this.segments = [[10, 10]];
+	    this.direction = "N";
+	    this.growth = 0;
+	  }
+
+	  nextCoord() {
+	    let currentHead = this.segments[0];
+	    if (this.direction === "N") {
+	      return ([currentHead[0] - 1, currentHead[1]]);
+	    }
+	    else if (this.direction === "E") {
+	      return ([currentHead[0], currentHead[1] + 1]);
+	    }
+	    else if (this.direction === "S") {
+	      return ([currentHead[0] + 1, currentHead[1]]);
+	    }
+	    else if (this.direction === "W") {
+	      return ([currentHead[0], currentHead[1] - 1]);
+	    }
+	  }
+
+	  move() {
+	    let nextMove = this.nextCoord();
+	    if (this.board.isValid(nextMove)) {
+	      this.segments.unshift(this.nextCoord());
+	      this.checkEating();
+
+	      if (this.growth === 0) {
+	        this.segments.pop();
+	      } else {
+	        this.growth -= 1;
+	      }
+
+	      return true;
+	    }
+	    return false;
+	  }
+
+	  checkEating() {
+	    let apple = this.board.apple;
+	    let head = this.segments[0];
+	    if (head[0] === apple[0] && head[1] === apple[1]) {
+	      this.board.apple = this.board.setApple();
+	      this.growth += Snake.GROWTH_RATE;
+	    }
+	  }
+	}
+
+	Snake.GROWTH_RATE = 3;
+
+	module.exports = Snake;
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	const Board = __webpack_require__(1);
 
 	class View {
 
@@ -254,122 +370,6 @@
 
 	}
 	module.exports = View;
-
-
-/***/ },
-/* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
-	const Snake = __webpack_require__(3);
-
-
-	class Board {
-
-	  constructor() {
-	    this.snake = new Snake(this);
-	    this.apple = this.setApple();
-	  }
-
-	  setApple() {
-	    let row = Math.floor(Math.random() * Board.GRID_HEIGHT);
-	    let col = Math.floor(Math.random() * Board.GRID_WIDTH);
-
-	    while (this.includedIn(this.snake, [row, col])) {
-	      row = Math.floor(Math.random() * Board.GRID_HEIGHT);
-	      col = Math.floor(Math.random() * Board.GRID_WIDTH);
-	    }
-
-	    return [row, col];
-	  }
-
-	  includedIn(arr, pos) {
-	    for (let i = 0; i < arr.length; i++) {
-	      if (arr[i][0] === pos[0] && arr[i][1] === pos[1]) {
-	        return true;
-	      }
-	    }
-	    return false;
-	  }
-
-	  isValid(pos) {
-	    if (pos[0] < 0 || pos[0] > Board.GRID_HEIGHT - 1) {
-	      return false;
-	    } else if (pos[1] < 0 || pos[1] > Board.GRID_WIDTH - 1) {
-	      return false;
-	    } else if (this.includedIn(this.snake.segments, pos)) {
-	      return false;
-	    }
-	    return true;
-	  }
-
-	}
-
-	Board.GRID_HEIGHT = 20;
-	Board.GRID_WIDTH = 20;
-	module.exports = Board;
-
-
-/***/ },
-/* 3 */
-/***/ function(module, exports) {
-
-	
-
-	class Snake {
-
-	  constructor(board) {
-	    this.board = board;
-	    this.segments = [[10, 10]];
-	    this.direction = "N";
-	    this.growth = 0;
-	  }
-
-	  nextCoord() {
-	    let currentHead = this.segments[0];
-	    if (this.direction === "N") {
-	      return ([currentHead[0] - 1, currentHead[1]]);
-	    }
-	    else if (this.direction === "E") {
-	      return ([currentHead[0], currentHead[1] + 1]);
-	    }
-	    else if (this.direction === "S") {
-	      return ([currentHead[0] + 1, currentHead[1]]);
-	    }
-	    else if (this.direction === "W") {
-	      return ([currentHead[0], currentHead[1] - 1]);
-	    }
-	  }
-
-	  move() {
-	    let nextMove = this.nextCoord();
-	    if (this.board.isValid(nextMove)) {
-	      this.segments.unshift(this.nextCoord());
-	      this.checkEating();
-
-	      if (this.growth === 0) {
-	        this.segments.pop();
-	      } else {
-	        this.growth -= 1;
-	      }
-
-	      return true;
-	    }
-	    return false;
-	  }
-
-	  checkEating() {
-	    let apple = this.board.apple;
-	    let head = this.segments[0];
-	    if (head[0] === apple[0] && head[1] === apple[1]) {
-	      this.board.apple = this.board.setApple();
-	      this.growth += Snake.GROWTH_RATE;
-	    }
-	  }
-	}
-
-	Snake.GROWTH_RATE = 3;
-
-	module.exports = Snake;
 
 
 /***/ }
