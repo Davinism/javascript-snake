@@ -2,6 +2,79 @@ body{
   font-family: 'Josefin Slab', serif;
 }
 
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.buttons2 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+input, button, submit {
+  margin: 10px auto;
+  width: 200px;
+  height: 50px;
+  border-radius: 5px;
+  font-family: 'Josefin Slab', serif;
+  font-size: 24px;
+}
+
+.new {
+  background: #41A1BC;
+  color: #fff;
+}
+
+.new:hover {
+  background: #347D91;
+  cursor: pointer;
+}
+
+.easy {
+  background: green;
+  color: #fff;
+}
+
+.easy:hover {
+  background: #103110;
+  cursor: pointer;
+}
+
+.medium {
+  background: #C6C600;
+  color: #fff;
+}
+
+.medium:hover {
+  background: #747400;
+  cursor: pointer;
+}
+
+.hard {
+  background: #C66B00;
+  color: #fff;
+}
+
+.hard:hover {
+  background: #784200;
+  cursor: pointer;
+}
+
+.impossible {
+  background: #BF0000;
+  color: #fff;
+}
+
+.impossible:hover {
+  background: #740000;
+  cursor: pointer;
+}
+
 h1 {
   text-align: center;
   font-size: 36px;

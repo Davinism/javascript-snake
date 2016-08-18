@@ -5,9 +5,10 @@ class View {
   constructor (board, $el) {
     this.board = board;
     this.$el = $el;
+    this.level = null;
 
     this.bindEvents();
-    this.makeMove();
+    this.selectLevel();
   }
 
   bindEvents() {
@@ -63,11 +64,61 @@ class View {
         this.renderBoard();
       } else {
         let $body = $('body');
-        let $winner = $(`<h2>Game Over.</h2><h2>Snake Length: ${this.board.snake.segments.length}</h2>`);
-        $body.append($winner);
+        let $lost = $(`<h2>Game Over</h2><h2>Snake Length: ${this.board.snake.segments.length}</h2>`);
+        let $newGame = $(`<section class="buttons2"><button class="new">New Game</button></section>`);
+        $body.append($lost);
+        $body.append($newGame);
+
+        $(".new").click((event) => {
+          $('.board').children().remove();
+          $('h2').remove();
+          $('.new').remove();
+          const rootEl = $('.board');
+          const game = new Board();
+          new View(game, rootEl);
+        });
+
         clearInterval(loop);
       }
-    }, 100);
+    }, this.level);
+  }
+
+  selectLevel() {
+    let $buttons = $('.buttons');
+    let $easyButton = $(`<button class="easy">Easy</button>`);
+    let $mediumButton = $(`<button class="medium">Medium</button>`);
+    let $hardButton = $(`<button class="hard">Hard</button>`);
+    let $impossibleButton = $(`<button class="impossible">Impossible</button>`);
+
+    $buttons.append($easyButton);
+    $buttons.append($mediumButton);
+    $buttons.append($hardButton);
+    $buttons.append($impossibleButton);
+
+    let thisView = this;
+
+    let setLevel = function (level) {
+      thisView.level = level;
+      $("button").remove();
+      thisView.makeMove();
+    };
+
+    $(".easy").click((event) => {
+      setLevel(250);
+    });
+
+    $(".medium").click((event) => {
+      setLevel(100);
+    });
+
+    $(".hard").click((event) => {
+      setLevel(50);
+    });
+
+    $(".impossible").click((event) => {
+      setLevel(10);
+    });
+
   }
 
   renderBoard() {
