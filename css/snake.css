@@ -87,7 +87,21 @@ input, button, submit {
 
 .rules {
   margin: 5em auto;
+  margin-bottom: 2em;
   font-size: 20px;
+}
+
+.github {
+  margin: 0 auto;
+  font-size: 20px;
+  text-decoration: none;
+  color: #000;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: bold;
+}
+
+.github:hover {
+  color: #4891C0;
 }
 
 h1 {
