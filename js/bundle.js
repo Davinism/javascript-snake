@@ -297,14 +297,12 @@
 	    let $hardButton = $(`<button class="hard">Hard</button>`);
 	    let $impossibleButton = $(`<button class="impossible">Impossible</button>`);
 	    let $rules = $(`<p class="rules">Move the snake with WASD or Arrow keys. Press SPACE to pause. Eat the apple, but watch for the walls... and yourself!</p>`);
-	    let $github = $(`<a class="github" target="_blank" href="https://github.com/Davinism/javascript-snake">Github</a>`);
 	
 	    $buttons.append($easyButton);
 	    $buttons.append($mediumButton);
 	    $buttons.append($hardButton);
 	    $buttons.append($impossibleButton);
 	    $buttons.append($rules);
-	    $buttons.append($github);
 	
 	    let thisView = this;
 	
@@ -312,7 +310,6 @@
 	      thisView.level = level;
 	      $("button").remove();
 	      $("p").remove();
-	      $("a").remove();
 	      thisView.makeMove();
 	    };
 	
