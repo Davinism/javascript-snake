@@ -120,17 +120,20 @@ class View {
     let $mediumButton = $(`<button class="medium">Medium</button>`);
     let $hardButton = $(`<button class="hard">Hard</button>`);
     let $impossibleButton = $(`<button class="impossible">Impossible</button>`);
+    let $rules = $(`<p class="rules">Move the snake with WASD or Arrow keys. Press SPACE to pause. Eat the apple, but watch for the walls... and yourself!</p>`);
 
     $buttons.append($easyButton);
     $buttons.append($mediumButton);
     $buttons.append($hardButton);
     $buttons.append($impossibleButton);
+    $buttons.append($rules);
 
     let thisView = this;
 
     let setLevel = function (level) {
       thisView.level = level;
       $("button").remove();
+      $("p").remove();
       thisView.makeMove();
     };
 

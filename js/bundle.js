@@ -1,41 +1,41 @@
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			exports: {},
 /******/ 			id: moduleId,
 /******/ 			loaded: false
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-
+/******/ 	__webpack_require__.p = "/js/";
+/******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
 /******/ })
@@ -46,7 +46,7 @@
 
 	const SnakeBoard = __webpack_require__(1);
 	const SnakeView = __webpack_require__(3);
-
+	
 	$( () => {
 	  const rootEl = $('.board');
 	  const game = new SnakeBoard();
@@ -59,27 +59,27 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	const Snake = __webpack_require__(2);
-
-
+	
+	
 	class Board {
-
+	
 	  constructor() {
 	    this.snake = new Snake(this);
 	    this.apple = this.setApple();
 	  }
-
+	
 	  setApple() {
 	    let row = Math.floor(Math.random() * Board.GRID_HEIGHT);
 	    let col = Math.floor(Math.random() * Board.GRID_WIDTH);
-
+	
 	    while (this.includedIn(this.snake, [row, col])) {
 	      row = Math.floor(Math.random() * Board.GRID_HEIGHT);
 	      col = Math.floor(Math.random() * Board.GRID_WIDTH);
 	    }
-
+	
 	    return [row, col];
 	  }
-
+	
 	  includedIn(arr, pos) {
 	    for (let i = 0; i < arr.length; i++) {
 	      if (arr[i][0] === pos[0] && arr[i][1] === pos[1]) {
@@ -88,7 +88,7 @@
 	    }
 	    return false;
 	  }
-
+	
 	  isValid(pos) {
 	    if (pos[0] < 0 || pos[0] > Board.GRID_HEIGHT - 1) {
 	      return false;
@@ -99,9 +99,9 @@
 	    }
 	    return true;
 	  }
-
+	
 	}
-
+	
 	Board.GRID_HEIGHT = 20;
 	Board.GRID_WIDTH = 20;
 	module.exports = Board;
@@ -112,16 +112,16 @@
 /***/ function(module, exports) {
 
 	
-
+	
 	class Snake {
-
+	
 	  constructor(board) {
 	    this.board = board;
 	    this.segments = [[10, 10]];
 	    this.direction = "N";
 	    this.growth = 0;
 	  }
-
+	
 	  nextCoord() {
 	    let currentHead = this.segments[0];
 	    if (this.direction === "N") {
@@ -137,24 +137,24 @@
 	      return ([currentHead[0], currentHead[1] - 1]);
 	    }
 	  }
-
+	
 	  move() {
 	    let nextMove = this.nextCoord();
 	    if (this.board.isValid(nextMove)) {
 	      this.segments.unshift(this.nextCoord());
 	      this.checkEating();
-
+	
 	      if (this.growth === 0) {
 	        this.segments.pop();
 	      } else {
 	        this.growth -= 1;
 	      }
-
+	
 	      return true;
 	    }
 	    return false;
 	  }
-
+	
 	  checkEating() {
 	    let apple = this.board.apple;
 	    let head = this.segments[0];
@@ -164,9 +164,9 @@
 	    }
 	  }
 	}
-
+	
 	Snake.GROWTH_RATE = 3;
-
+	
 	module.exports = Snake;
 
 
@@ -175,19 +175,19 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	const Board = __webpack_require__(1);
-
+	
 	class View {
-
+	
 	  constructor (board, $el) {
 	    this.board = board;
 	    this.$el = $el;
 	    this.level = null;
 	    this.paused = "false";
-
+	
 	    this.bindEvents();
 	    this.selectLevel();
 	  }
-
+	
 	  bindEvents() {
 	    let snake = this.board.snake;
 	    let thisView = this;
@@ -200,7 +200,7 @@
 	        let $body = $('body');
 	        let $paused = $(`<h2>PAUSED</h2>`);
 	        let $reset = $(`<section class="buttons2"><button class="impossible">Reset Game</button></section>`);
-
+	
 	        $body.append($paused);
 	        $body.append($reset);
 	        $(".impossible").click((event) => {
@@ -212,12 +212,12 @@
 	          const game = new Board();
 	          new View(game, rootEl);
 	        });
-
+	
 	        thisView.paused = "true";
 	      }
 	    });
-
-
+	
+	
 	    key('w', function(){
 	      if (snake.direction !== 'S') {
 	        snake.direction = 'N';
@@ -238,7 +238,7 @@
 	        snake.direction = 'E';
 	      }
 	    });
-
+	
 	    key('up', function(){
 	      if (snake.direction !== 'S') {
 	        snake.direction = 'N';
@@ -260,10 +260,10 @@
 	      }
 	    });
 	  }
-
+	
 	  makeMove($tower) {
 	    this.renderBoard();
-
+	
 	    let loop = setInterval(() => {
 	      if (this.paused === "false") {
 	        if (this.board.snake.move()) {
@@ -274,7 +274,7 @@
 	          let $newGame = $(`<section class="buttons2"><button class="new">New Game</button></section>`);
 	          $body.append($lost);
 	          $body.append($newGame);
-
+	
 	          $(".new").click((event) => {
 	            $('.board').children().remove();
 	            $('h2').remove();
@@ -283,55 +283,58 @@
 	            const game = new Board();
 	            new View(game, rootEl);
 	          });
-
+	
 	          clearInterval(loop);
 	        }
 	      }
 	    }, this.level);
 	  }
-
+	
 	  selectLevel() {
 	    let $buttons = $('.buttons');
 	    let $easyButton = $(`<button class="easy">Easy</button>`);
 	    let $mediumButton = $(`<button class="medium">Medium</button>`);
 	    let $hardButton = $(`<button class="hard">Hard</button>`);
 	    let $impossibleButton = $(`<button class="impossible">Impossible</button>`);
-
+	    let $rules = $(`<p class="rules">Move the snake with WASD or Arrow keys. Press SPACE to pause. Eat the apple, but watch for the walls... and yourself!</p>`);
+	
 	    $buttons.append($easyButton);
 	    $buttons.append($mediumButton);
 	    $buttons.append($hardButton);
 	    $buttons.append($impossibleButton);
-
+	    $buttons.append($rules);
+	
 	    let thisView = this;
-
+	
 	    let setLevel = function (level) {
 	      thisView.level = level;
 	      $("button").remove();
+	      $("p").remove();
 	      thisView.makeMove();
 	    };
-
+	
 	    $(".easy").click((event) => {
 	      setLevel(250);
 	    });
-
+	
 	    $(".medium").click((event) => {
 	      setLevel(100);
 	    });
-
+	
 	    $(".hard").click((event) => {
 	      setLevel(50);
 	    });
-
+	
 	    $(".impossible").click((event) => {
 	      setLevel(10);
 	    });
-
+	
 	  }
-
+	
 	  renderBoard() {
 	    let $ul = $("ul");
 	    $ul.remove();
-
+	
 	    let rows = Board.GRID_HEIGHT;
 	    let cols = Board.GRID_WIDTH;
 	    let $board = $('.board');
@@ -343,11 +346,11 @@
 	        $(row).append($('<li></li>'));
 	      }
 	    });
-
+	
 	    this.setSnake(this.board.snake.segments);
 	    this.setApple();
 	  }
-
+	
 	  setSnake(arr) {
 	    let $uls = $('ul');
 	    arr.forEach((pos) => {
@@ -367,10 +370,11 @@
 	      $li.addClass("apple");
 	    });
 	  }
-
+	
 	}
 	module.exports = View;
 
 
 /***/ }
 /******/ ]);
+//# sourceMappingURL=bundle.js.map
